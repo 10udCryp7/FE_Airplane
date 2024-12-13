@@ -96,7 +96,7 @@ const fetchFlight = async () => {
         }
       ]
     }
-    const flightData = useState('flightData', () => fake_response);
+    const flightData = useState('flightData', () => response.data);
 
     return navigateTo('/book')
     console.log('in')
