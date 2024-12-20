@@ -1,28 +1,38 @@
 <template>
-    <div>
+    <div class="container" :style="{ width: width + 'px', height: height + 'px' }">
         <!-- Lựa chọn phương thức tìm kiếm -->
-        <div>
-            <label>
+        <div class="status-options top-left">
+            <label class="radio-label">
                 <input type="radio" v-model="searchType" value="route" />
-                By Route
+                <span>By Route</span>
             </label>
-            <label>
+            <label class="radio-label">
                 <input type="radio" v-model="searchType" value="flightNumber" />
-                By Flight Number
+                <span>By Flight Number</span>
             </label>
         </div>
 
         <!-- Tìm kiếm theo Route -->
-        <div v-if="searchType === 'route'">
-            <h3>Search by Route</h3>
-            <div>
-                <input v-model="from" placeholder="From" />
-                <input v-model="to" placeholder="To" />
-            </div>
-            <div>
-                <label>Date: </label>
-                <VueDatePicker v-model="routeDate" format="yyyy-MM-dd" />
-            </div>
+        <div class="input-container flex flex-col border border-black rounded-lg justify-center h-20 w-full">
+        <div v-if="searchType === 'route'" class="input-row flex items-center justify-between flex-nowrap w-full">
+            <div class="input-group flex flex-col items-start p-2 flex-1">
+                    <label class="text-xs text-gray-500 mb-1">From</label>
+                    <DropdownInput v-model="from" class="translate-y-1 dropdown-input" typeField="text" />
+                </div>
+                <button @click="swapFromTo" class="swap-btn mx-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6M4 10l6-6M20 14l-6 6" />
+                    </svg>
+                </button>
+                <div class="input-group flex flex-col items-start p-2 flex-1">
+                    <label class="text-xs text-gray-500 mb-1">To</label>
+                    <DropdownInput v-model="to" class="dropdown-input" typeField="text" />
+                </div>
+                <div class="separator w-px h-2/3 bg-black mx-2 "></div>
+                <div class="input-group flex flex-col items-start p-2 flex-1 -translate-y-2">
+                    <label class="text-xs text-gray-500 mb-1">Date</label>
+                    <VueDatePicker v-model="routeDate" format="yyyy-MM-dd" class="w-full border-none outline-none text-sm h-8 pb-8 scale-90 no-overflow-hidden date-picker" />
+                </div>
             <button @click="searchByRoute">Search</button>
         </div>
 
@@ -44,6 +54,7 @@
             <h4>Search Result:</h4>
             <p>{{ result }}</p>
         </div>
+        </div>
     </div>
 </template>
 
@@ -60,6 +71,17 @@ const flightNumber = ref('');
 const routeDate = ref(null); // Date for route search
 const flightDate = ref(null); // Date for flight number search
 const result = ref(null);
+
+defineProps({
+    width: {
+        type: Number,
+        required: true
+    },
+    height: {
+        type: Number,
+        required: true
+    }
+});
 
 // Hàm tìm kiếm theo route
 const searchByRoute = () => {
