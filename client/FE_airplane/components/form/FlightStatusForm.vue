@@ -14,8 +14,8 @@
 
         <!-- Tìm kiếm theo Route -->
         <div class="input-container flex flex-col border border-black rounded-lg justify-center h-20 w-full">
-        <div v-if="searchType === 'route'" class="input-row flex items-center justify-between flex-nowrap w-full">
-            <div class="input-group flex flex-col items-start p-2 flex-1">
+            <div v-if="searchType === 'route'" class="input-row flex items-center justify-between flex-nowrap w-full">
+                <div class="input-group flex flex-col items-start p-2 flex-1">
                     <label class="text-xs text-gray-500 mb-1">From</label>
                     <DropdownInput v-model="from" class="translate-y-1 dropdown-input" typeField="text" />
                 </div>
@@ -28,32 +28,32 @@
                     <label class="text-xs text-gray-500 mb-1">To</label>
                     <DropdownInput v-model="to" class="dropdown-input" typeField="text" />
                 </div>
-                <div class="separator w-px h-2/3 bg-black mx-2 "></div>
+                <div class="separator w-px h-2/3 bg-black mx-2"></div>
                 <div class="input-group flex flex-col items-start p-2 flex-1 -translate-y-2">
                     <label class="text-xs text-gray-500 mb-1">Date</label>
                     <VueDatePicker v-model="routeDate" format="yyyy-MM-dd" class="w-full border-none outline-none text-sm h-8 pb-8 scale-90 no-overflow-hidden date-picker" />
                 </div>
-            <button @click="searchByRoute">Search</button>
-        </div>
-
-        <!-- Tìm kiếm theo Flight Number -->
-        <div v-else-if="searchType === 'flightNumber'">
-            <h3>Search by Flight Number</h3>
-            <div>
-                <input v-model="flightNumber" placeholder="Flight Number" />
+                <button @click="searchByRoute" class="status-btn flex p-4 text-lg text-white bg-[#18134C] border-none rounded-2xl cursor-pointer transition-colors duration-300 absolute bottom-[0px] right-5 -translate-y-4">Search</button>
             </div>
-            <div>
-                <label>Date: </label>
-                <VueDatePicker v-model="flightDate" format="yyyy-MM-dd" />
-            </div>
-            <button @click="searchByFlightNumber">Search</button>
-        </div>
 
-        <!-- Hiển thị kết quả -->
-        <div v-if="result">
-            <h4>Search Result:</h4>
-            <p>{{ result }}</p>
-        </div>
+            <!-- Tìm kiếm theo Flight Number -->
+            <div v-else-if="searchType === 'flightNumber'" class="input-row flex items-center justify-between flex-nowrap">
+                <div class="input-group flex flex-col items-start p-2 flex-1 -translate-y-1">
+                    <label class="text-xs text-gray-500 mb-1 pb-2">Flight Number</label>
+                    <input v-model="flightNumber" class="w-full border-none outline-none text-l p-1 translate-y-3" />
+                </div>
+                <div class="input-group flex flex-col items-start p-2 flex-1 -translate-y-1">
+                    <label class="text-xs text-gray-500 mb-1">Date</label>
+                    <VueDatePicker v-model="flightDate" format="yyyy-MM-dd" class="w-full border-none outline-none text-sm p-1 h-8 no-overflow-hidden date-picker pb10 -translate-y-2" />
+                </div>
+                <button @click="searchByFlightNumber" class="status-btn flex p-4 text-lg text-white bg-[#18134C] border-none rounded-2xl cursor-pointer transition-colors duration-300 absolute bottom-[0px] right-5 -translate-y-4">Search</button>
+            </div>
+
+            <!-- Hiển thị kết quả -->
+            <div v-if="result">
+                <h4>Search Result:</h4>
+                <p>{{ result }}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -61,7 +61,7 @@
 <script setup>
 import { ref } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import '@vuepic/vue-datepicker/dist/main.css';
 
 // Tạo các biến để lưu lựa chọn tìm kiếm và kết quả
 const searchType = ref('route'); // Default is 'route'
