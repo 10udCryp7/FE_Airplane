@@ -5,8 +5,8 @@
         <!-- Nút chuyển đổi bên trên -->
         <div class="toggle-buttons">
           <button 
-            :class="{ active: currentView === 'signup' }" 
-            @click="currentView = 'signup'">
+            :class="{ active: currentView === 'register' }" 
+            @click="currentView = 'register'">
             Sign Up
           </button>
           <button 
@@ -17,24 +17,24 @@
         </div>
   
         <!-- Hiển thị nội dung động -->
-        <h2 v-if="currentView === 'signup'">Create an Account</h2>
+        <h2 v-if="currentView === 'register'">Create an Account</h2>
         <h2 v-else>Welcome Back!</h2>
   
         <div class="form-container">
           <!-- Hiển thị Sign Up hoặc Login -->
-          <SignUpComponent v-if="currentView === 'signup'" />
+          <registerComponent v-if="currentView === 'register'" />
           <LogInComponent v-else />
         </div>
   
         <!-- Nút chuyển đổi phía dưới -->
         <p class="toggle-text">
-          <span v-if="currentView === 'signup'">
+          <span v-if="currentView === 'register'">
             Already have an account? 
             <button @click="currentView = 'login'">Login</button>
           </span>
           <span v-else>
             Don't have an account yet? 
-            <button @click="currentView = 'signup'">Sign Up</button>
+            <button @click="currentView = 'register'">Sign Up</button>
           </span>
         </p>
       </div>
@@ -45,7 +45,7 @@
   import { ref } from 'vue';
   
   // Biến theo dõi chế độ hiện tại (Sign Up hoặc Login)
-  const currentView = ref('signup');
+  const currentView = ref('register');
   </script>
   
   <style scoped>
