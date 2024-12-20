@@ -105,9 +105,9 @@ function onDateChange(value) {
 function setDropdownPosition(target) {
     const rect = target.getBoundingClientRect();
     dropdownStyle.value = {
-        top: `${ rect.bottom + window.scrollY } px`,
-            left: `${ rect.left + window.scrollX } px`,
-                width: `${ rect.width * 3 } px`
+        top: `${rect.bottom + window.scrollY + 10}px`, // Adjusted to move the dropdown 10px lower
+        left: `${rect.left + window.scrollX}px`,
+        width: `${rect.width}px`
     };
 }
 
@@ -153,6 +153,7 @@ onBeforeUnmount(() => {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-height: 300px;
     overflow-y: auto;
+    width: 500px;
     position: absolute;
     z-index: 1000;
 }

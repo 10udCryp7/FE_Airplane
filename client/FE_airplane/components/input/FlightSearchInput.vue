@@ -1,15 +1,14 @@
 <template>
-  <div class="input-container flex flex-col border border-black rounded-lg justify-center h-20">
+  <div class="input-container flex flex-col border border-black rounded-lg justify-center h-20 -translate-y-2">
     <div class="input-row flex items-center justify-between flex-nowrap w-full">
       <DropdownInput v-for="(dropdown, index) in dropdowns" :name="name[index]" :placeholder="dropdown.placeholder"
         :typeField="dropdown.typeField" v-model="msg[index]" class="relative input-group flex flex-col items-start p-2 flex-1"/>
     </div>
   </div>
   <button @click="fetchFlight"
-    class="search-btn flex p-4 text-lg text-white bg-[#18134C] border-none rounded-2xl cursor-pointer transition-colors duration-300 absolute bottom-[-30px] right-5 ">
+    class="search-btn flex p-4 text-lg text-white bg-[#18134C] border-none rounded-2xl cursor-pointer transition-colors duration-300 absolute bottom-[-20px] right-5 -translate-y-3">
     <span>
-      Search
-      flights
+      Search flights
     </span>
   </button>
 </template>

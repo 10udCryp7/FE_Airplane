@@ -1,7 +1,7 @@
 <template>
     <div class="container" :style="{ width: width + 'px', height: height + 'px' }">
         <!-- choose the type of flights to search-->
-        <div class="trip-type top-left">
+        <div class="top-left flex gap-5 mb-5">
             <label class="radio-label">
                 <input type="radio" name="tripType" value="return" v-model="tripType" />
                 Return
@@ -13,7 +13,7 @@
         </div>
 
         <!-- input fields for the flight search -->
-            <FlightSearchInput :dropdowns="dropdownConfig" />
+            <FlightSearchInput :dropdowns="dropdownConfig"/>
     </div>
 </template>
 
@@ -40,10 +40,10 @@ const baseDropdowns = {
 };
 
 // Multi-city inputs is an array of one-way inputs
-const multiCityInputs = ref([
+/* const multiCityInputs = ref([
     { id: 1, fields: baseDropdowns.oneway },
 ]);
-
+ */
 // 
 const dropdownConfig = computed(() => {
     if (tripType.value === "multicity") {
@@ -52,14 +52,31 @@ const dropdownConfig = computed(() => {
     return baseDropdowns[tripType.value];
 });
 
-const addCity = () => {
+/* const addCity = () => {
     multiCityInputs.value.push({
         id: Date.now(),
         fields: baseDropdowns.oneway,
     });
-};
+}; */
 
 // FLight Axios
+
+const swapFromTo = () => {
+  const temp = from.value;
+  from.value = to.value;
+  to.value = temp;
+};
+
+defineProps({
+  width: {
+    type: Number,
+    required: true
+  },
+  height: {
+    type: Number,
+    required: true
+  }
+});
 
 </script>
 
@@ -68,12 +85,9 @@ const addCity = () => {
   @apply font-sans relative flex flex-col items-center justify-center w-full h-full p-5 bg-white rounded-lg;
 }
 
-.trip-type {
-  @apply flex gap-5 mb-5;
-}
 
 .top-left {
-  @apply absolute top-5 left-5;
+  @apply absolute top-1 left-5;
 }
 
 .radio-label {

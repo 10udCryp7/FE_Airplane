@@ -1,10 +1,10 @@
 <template>
-    <div class="grid-container">
+    <div class="grid-container ">
         <!-- Navbar -->
 
         <div class="tabs">
-            <button v-for="tab in tabs" :key="tab.name" :class="{ active: activeComponent === tab.component }"
-                @click="activeComponent = tab.component">
+            <button v-for="tab in tabs" :key="tab.name" :class="{ active: activeComponent === tab.component, isActive: activeTabName === tab.name }"
+                @click="activeComponent = tab.component, setActiveTab(tab.name)">
                 {{ tab.label }}
             </button>
         </div>
@@ -28,8 +28,14 @@ const tabs = [
     { name: "Flight Status", label: "Flight Status", component: FlightStatusForm },
 ];
 
+// Active Tab name 
+const activeTabName = ref(tabs[0].name);
 // Active Component
 const activeComponent = ref(BookAFlightForm);
+// Method to set the active tab
+const setActiveTab = (name) => {
+  activeTabName.value = name;
+};
 </script>
 
 <style scoped>
@@ -40,8 +46,8 @@ const activeComponent = ref(BookAFlightForm);
   grid-template-areas: 
     "tabs"
     "content";
-  height: 500px; /* Chiều cao cố định */
-  width: 800px; /* Chiều rộng cố định */
+  height: 328px; /* Chiều cao cố định */
+  width: 1038px; /* Chiều rộng cố định */
   margin: 50px auto; /* Căn giữa trên màn hình */
   border: 1px solid #ddd; /* Viền để phân tách */
   border-radius: 10px; /* Bo góc */
@@ -52,33 +58,20 @@ const activeComponent = ref(BookAFlightForm);
 
 /* Tabs Section */
 .tabs {
-  grid-area: tabs;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  background-color: #f8f8f8;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  @apply font-sans flex justify-around items-center h-12 bg-[#18134C] rounded-t-lg overflow-hidden;
 }
 
 .tabs button {
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  background-color: #ddd;
-  transition: background-color 0.3s;
-  border-radius: 5px;
+  @apply flex-1 h-full text-lg text-white bg-transparent border-none text-center cursor-pointer;
 }
 
-.tabs button.active {
-  background-color: #5a2d82;
-  color: white;
+.tabs button.isActive {
+  @apply bg-white text-black;
 }
 
-.tabs button:hover {
+/* .tabs button:hover {
   background-color: #bcbcbc;
-}
+} */
 
 /* Content Section */
 .content {
