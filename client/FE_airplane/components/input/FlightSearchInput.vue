@@ -2,7 +2,7 @@
   <div class="container">
     <DropdownInput v-for="(dropdown, index) in dropdowns" :key="index" :placeholder="dropdown.placeholder"
       :typeField="dropdown.typeField" v-model="msg[index]" />
-    <p>{{ typeof (msg[0]) }}</p>
+    <p>{{ msg[0] }}</p>
     <p>{{ msg[1] }}</p>
     <p>{{ msg[2] }}</p>
     <p>{{ msg[3] }}</p>

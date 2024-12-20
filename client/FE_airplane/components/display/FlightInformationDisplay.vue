@@ -8,7 +8,7 @@
     <h3>Giá tiền:</h3>
 
     <!-- Truyền price cho component con PriceButton -->
-    <PriceButton :price="price" />
+    <PriceButton :price="price" :departure="departure" :arrival="arrival" :startDate="startDate" :endDate="endDate" :flightId="flightId"/>
     <button>FLight Details</button>
   </div>
 </template>
@@ -39,8 +39,11 @@ defineProps({
   price: {
     type: Number,
   },
-
+  flightId: {
+    type: Number,
+  }
 });
+
 </script>
 
 <style scoped>
