@@ -1,7 +1,7 @@
 <template>
-    <div class="signup">
+    <div class="register">
       <h2>Sign Up</h2>
-      <form @submit.prevent="signUp">
+      <form @submit.prevent="register">
         <div>
           <label for="email">Email:</label>
           <input type="email" id="email" v-model="email" required />
@@ -29,13 +29,13 @@
   const confirmPassword = ref('');
   const router = useRouter();
   
-  const signUp = async () => {
+  const register = async () => {
     if (password.value !== confirmPassword.value) {
       alert('Passwords do not match!');
       return;
     }
     try {
-      const response = await axios.post('/api/signup', { email: email.value, password: password.value });
+      const response = await axios.post('/api/register', { email: email.value, password: password.value });
       console.log('Sign-up successful', response.data);
       router.push('/login'); // Navigate to the login page on success
     } catch (error) {
