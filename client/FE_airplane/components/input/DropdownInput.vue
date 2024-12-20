@@ -42,7 +42,7 @@ defineProps({
         type: String,
         default: 'Enter your search query here' // the default placeholder if the parent component does not provide one
     },
-    // define the type of the input field
+    // define th    e type of the input field
     typeField: {
         type: String,
         default: 'text', // the default type of the input field is text
