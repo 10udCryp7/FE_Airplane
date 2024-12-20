@@ -1,77 +1,74 @@
 <template>
-    <header class="header">
+    <div class="relative">
+        <header class="absolute top-0 left-0 w-full z-20 flex justify-between items-center p-64 py-4 text-white bg-transparent font-sans">
         <!-- set logo path -->
-        <div class="logo-container scale-75">
+        <div class="logo-container scale-75 flex items-center ">
           <img src="../assets/images/logo2.png" alt="logo" class="logo" />
           <img src="../assets/images/QAirline.png" alt="logo" class="logo" />
         </div>
+        
         <!-- set header navigation bar -->
-        <nav class="nav">
+        <nav class="nav flex space-x-4 text-white gap-5 ml-5">
             <!-- set DropdownButton for 'Explore' -->
-            <DropdownButton>
+            <DropdownButton class="text-lg font-light">
                 <template v-slot:title>Explore</template>
                 <template v-slot:content>
                     <!-- ADD CONTENT HERE -->
                     <!--DEMO CONTENT BELOW-->
-                    <a href="#">Destinations</a>
-                    <a href="#">Travel Guides</a>
+                    <!-- <a href="#">Destinations</a>
+                    <a href="#">Travel Guides</a> -->
                 </template>
             </DropdownButton>
             <!-- set DropdownButton for 'Book' -->
-            <DropdownButton>
+            <DropdownButton class="text-lg font-light">
                 <template v-slot:title>Book</template>
                 <template v-slot:content>
                     <!-- ADD CONTENT HERE -->
                     <!--DEMO CONTENT BELOW-->
-                    <a href="#">Flights</a>
-                    <a href="#">Hotels</a>
+<!--                     <a href="#">Flights</a>
+                    <a href="#">Hotels</a> -->
                 </template>
             </DropdownButton>
+
+            
             <!-- set DropdownButton for 'Experience' -->
-            <DropdownButton>
-                <template v-slot:title>Experience</template>
-                <template v-slot:content>
-                    <!-- ADD CONTENT HERE -->
-                    <!--DEMO CONTENT BELOW-->
-                    <a href="#">Events</a>
-                    <a href="#">Activities</a>
-                </template>
-            </DropdownButton>
-            <button>Sign In</button>
-            <button>Sign Up</button>
         </nav>
-    </header>   
+        <div class="auth-buttons flex space-x-4 text-white pr-12 font-medium gap-4 ml-auto">
+        <button>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </button>
+        <button>Sign In</button>
+        <button>Sign Up</button>
+    </div>
+        </header>  
+
+        <div class="background-container h-[50vh] w-full bg-cover bg-center bg-no-repeat">
+            <img src="../assets/images/background.jpg" alt="background" class="h-full w-full object-cover" />
+        </div>
+    </div> 
 </template>
 
 <script setup>
 </script>
 
 <style scoped>
-/* Header Styles */
-.header {
-  display: grid;
-  grid-template-columns: auto 1fr auto; /* Logo, navigation, và phần bên phải */
-  align-items: center;
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.7); /* Màu nền trong suốt */
-  color: white; /* Màu chữ */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
-}
 
 /* Logo Section */
 .logo {
-  max-height: 40px;
+  @apply max-h-10;
 }
 
 /* Navigation Styles */
-.nav {
+/* .nav {
   display: grid;
-  grid-template-columns: repeat(5, auto); /* 5 mục menu */
+  grid-template-columns: repeat(5, auto); 
   justify-content: center;
-  gap: 20px; /* Khoảng cách giữa các mục */
-}
+  gap: 20px; 
+} */
 
-.nav a {
+/* .nav a {
   text-decoration: none;
   color: white;
   font-weight: 500;
@@ -82,12 +79,21 @@
 }
 
 .nav a:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* Hiệu ứng nền khi hover */
+  background-color: rgba(255, 255, 255, 0.2); 
   color: #f9f9f9;
+} */
+
+.nav > DropdownButton {
+  all: unset;
+  @apply text-lg font-medium text-black cursor-pointer transition-colors duration-300;
+}
+
+.nav > DropdownButton:hover {
+  @apply text-opacity-70;
 }
 
 /* Right Section Styles */
-.right-section {
+/* .right-section {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -105,14 +111,18 @@
 }
 
 .right-section .icon {
-  font-size: 16px; /* Icon kích thước nhỏ */
+  font-size: 16px; 
   margin-right: 5px;
 }
 
 .right-section img {
   width: 20px;
   height: 20px;
-  border-radius: 50%; /* Icon quốc gia dạng tròn */
+  border-radius: 50%; 
+} */
+
+header {
+  font-family: 'Neue Haas Unica Pro', sans-serif;
 }
 
 /* Responsive Styles */
