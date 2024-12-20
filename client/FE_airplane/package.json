@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.2",
     "@vuepic/vue-datepicker": "^10.0.0",
     "axios": "^1.7.9",
     "express": "^4.21.2",

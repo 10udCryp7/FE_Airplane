@@ -1,33 +1,19 @@
 <template>
-    <div class="container">
+    <div class="container" :style="{ width: width + 'px', height: height + 'px' }">
         <!-- choose the type of flights to search-->
-        <div class="trip-type">
-            <label>
+        <div class="trip-type top-left">
+            <label class="radio-label">
                 <input type="radio" name="tripType" value="return" v-model="tripType" />
                 Return
             </label>
-            <label>
+            <label class="radio-label">
                 <input type="radio" name="tripType" value="oneway" v-model="tripType" />
                 One way
-            </label>
-            <label>
-                <input type="radio" name="tripType" value="multicity" v-model="tripType" />
-                Multi-city
             </label>
         </div>
 
         <!-- input fields for the flight search -->
-        <FlightSearchInput :dropdowns="dropdownConfig" />
-
-        <!-- if the tripType is multicity, then show the add city button -->
-        <div v-if="tripType === 'multicity'" class="multi-city-controls">
-            <button @click="addCity">+ Add another city</button>
-        </div>
-
-        <!-- if the tripType is return, then show the return date field -->
-        <!-- <div class="actions">
-            <button class="search-flights">Search flights</button>
-        </div> -->
+            <FlightSearchInput :dropdowns="dropdownConfig" />
     </div>
 </template>
 
@@ -77,4 +63,28 @@ const addCity = () => {
 
 </script>
 
+<style scoped>
+.container {
+  @apply font-sans relative flex flex-col items-center justify-center w-full h-full p-5 bg-white rounded-lg;
+}
 
+.trip-type {
+  @apply flex gap-5 mb-5;
+}
+
+.top-left {
+  @apply absolute top-5 left-5;
+}
+
+.radio-label {
+  @apply flex items-center gap-2 text-lg cursor-pointer;
+}
+
+.swap-btn {
+  @apply mx-2;
+}
+
+.search-btn:hover span {
+  @apply opacity-50;
+}
+</style>

@@ -1,16 +1,17 @@
 <template>
-  <div class="container">
-    <DropdownInput v-for="(dropdown, index) in dropdowns" :key="index" :placeholder="dropdown.placeholder"
-      :typeField="dropdown.typeField" v-model="msg[index]" />
-    <p>{{ msg[0] }}</p>
-    <p>{{ msg[1] }}</p>
-    <p>{{ msg[2] }}</p>
-    <p>{{ msg[3] }}</p>
+  <div class="input-container flex flex-col border border-black rounded-lg justify-center h-20">
+    <div class="input-row flex items-center justify-between flex-nowrap w-full">
+      <DropdownInput v-for="(dropdown, index) in dropdowns" :name="name[index]" :placeholder="dropdown.placeholder"
+        :typeField="dropdown.typeField" v-model="msg[index]" class="relative input-group flex flex-col items-start p-2 flex-1"/>
+    </div>
   </div>
-  <div class="actions">
-    <button @click="fetchFlight" class="search-flights">Search flights</button>
-
-  </div>
+  <button @click="fetchFlight"
+    class="search-btn flex p-4 text-lg text-white bg-[#18134C] border-none rounded-2xl cursor-pointer transition-colors duration-300 absolute bottom-[-30px] right-5 ">
+    <span>
+      Search
+      flights
+    </span>
+  </button>
 </template>
 
 <script setup>
@@ -23,8 +24,9 @@ defineProps({
     required: true,
   },
 });
-const msg = ref(['North Craigmouth', 'Philipborough', Date('2025-01-12 15:57:40.405'), Date('2025-01-15 17:29:46.198')]);
-
+// const msg = ref(['North Craigmouth', 'Philipborough', Date('2025-01-12 15:57:40.405'), Date('2025-01-15 17:29:46.198')]);
+const msg = ref(['', '', '', '']); 
+const name = ref(['From', 'To', 'Departure Time', 'Arrival Time']);
 // === FETCH FLIGHT ===
 
 // Reactive variable to store the fetched data
@@ -109,3 +111,9 @@ const fetchFlight = async () => {
 }
 
 </script>
+
+<style scoped>
+.search-btn:hover span {
+  @apply opacity-50;
+}
+</style>

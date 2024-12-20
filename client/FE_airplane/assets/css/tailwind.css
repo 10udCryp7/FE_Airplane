@@ -1,0 +1,11 @@
+/* @import 'flowbite/dist/flowbite.css'; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Afterglow';
+    src: url('../assets/fonts/Afterglow/Afterglow.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
