@@ -50,16 +50,17 @@ export default {
           const decodedToken = jwtDecode(token);
 
           // Extract name and role from the token
-          const { name, role } = decodedToken;
+          const { name, role, userId } = decodedToken;
 
           // Update the store
           userStore.addCurentUser({
-            user: { name, role },   // Set user details
+            user: { name, role, userId },   // Set user details
             token,                 // Store the token
           });
 
-          console.log('Login successful', { name, role });
+          console.log('Login successful', { name, role, userId });
           if (role === 'Admin') {
+            console.log(userStore.getCurrentUser.userId);
             router.push({ name: 'admin' });
           } else {
             router.push({ name: 'home' });

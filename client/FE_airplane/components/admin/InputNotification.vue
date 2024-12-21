@@ -76,7 +76,6 @@
 <div v-else>
   <p>Không có thông báo để hiển thị.</p>
 </div>
-
   </section>
 </template>
 

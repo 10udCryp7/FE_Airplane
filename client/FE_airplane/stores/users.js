@@ -22,7 +22,7 @@ export const useUserStore = defineStore("users", {
   
 
     async addCurentUser(userData) {
-      console.log(userData);
+      console.log( "userData", userData);
       this.currentUser = userData.user; // User details from the response
       this.token = userData.token;     // JWT token from the response
       this.isAuthenticated = true;
