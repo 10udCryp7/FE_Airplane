@@ -25,24 +25,54 @@
   </div>
 </template>
 
-<script setup>
+<script >
+import { jwtDecode } from "jwt-decode";
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useUserStore } from '~/stores/users';
+export default {
+  setup() {
+    const email = ref('');
+    const password = ref('');
+    const router = useRouter();
+    const userStore = useUserStore();
+    const login = async () => {
+      try {
+        const response = await axios.post('http://localhost:3456/api/auth/login', { email: email.value, password: password.value });
+        
+        if (response.status === 200) {
+          console.log('Login response', response.data);
+          const token = response.data.accessToken;
 
-const email = ref('');
-const password = ref('');
-const router = useRouter();
+          // Decode the JWT token
+          console.log('Token', token);
+          const decodedToken = jwtDecode(token);
 
-const login = async () => {
-  try {
-    const response = await axios.post('/api/login', { email: email.value, password: password.value });
-    console.log('Login successful', response.data);
-    router.push('/dashboard'); // Navigate to the dashboard on success
-  } catch (error) {
-    console.error('Login failed', error);
+          // Extract name and role from the token
+          const { name, role } = decodedToken;
+
+          // Update the store
+          userStore.addCurentUser({
+            user: { name, role },   // Set user details
+            token,                 // Store the token
+          });
+
+console.log('Login successful', { name, role });
+          router.push({ name: 'home' });
+        }
+      } catch (error) {
+        console.error('Login failed', error);
+      }
+    };
+
+    return {
+      email,
+      password,
+      login,
+    };
   }
-};
+}
 </script>
 
 <style scoped>

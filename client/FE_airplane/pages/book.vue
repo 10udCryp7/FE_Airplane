@@ -4,5 +4,8 @@
     </div>
 </template>
 
-<script setup>
+<script >
+export default {
+    middleware: 'auth'
+}
 </script>
