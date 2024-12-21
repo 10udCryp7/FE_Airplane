@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     './components/form',
     './components/main',
     './components/display',
+    './components/admin',
   ],
 
   postcss: {
