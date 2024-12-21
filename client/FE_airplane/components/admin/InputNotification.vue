@@ -1,12 +1,14 @@
 <template>
-  <section>
-    <h3>Title</h3>
-    <input v-model="newTitle" placeholder="Enter title here..." />
+  <section class="bg-gray-100 p-6 w-full flex flex-col">
+    <h3 class="text-2xl font-bold text-center mb-6">Đăng thông tin</h3>
+    <h3 class="text-lg font-semibold mb-2">Title</h3>
+    <input v-model="newTitle" placeholder="Enter title here..." class="w-full p-2 mb-4 border border-gray-300 rounded"/>
 
-    <h3>Description</h3>
+    <h3 class="text-lg font-semibold mb-2">Description</h3>
     <textarea
       v-model="newPost"
       placeholder="Enter description here..."
+      class="w-full p-2 mb-4 border border-gray-300 rounded"
     ></textarea>
 
     <!-- Đăng ảnh -->
@@ -34,46 +36,47 @@
       </label>
     </div>
 
-    <button @click="postInfoWithImage">Đăng thông tin</button>
+    <button @click="postInfoWithImage" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700">Đăng thông tin</button>
 
-    <h3>Danh sách thông báo</h3>
-    <div v-if="notifications.length" style="overflow: auto; max-height: 400px">
-      <table border="1" style="width: 100%">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Content</th>
-            <th>Post Date</th>
-            <th>Type</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(notification, index) in notifications" :key="index">
-            <td>{{ notification.postId }}</td>
-            <td>{{ notification.title }}</td>
-            <td>{{ notification.description }}</td>
-            <td>
-              <img
-                :src="notification.content"
-                alt="Notification Content"
-                style="max-width: 100px"
-              />
-            </td>
-            <td>{{ notification.postDate }}</td>
-            <td>{{ notification.type }}</td>
-            <td>
-              <button @click="deleteNotification(notification.postId)">Xóa</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div v-else>
-      <p>Không có thông báo để hiển thị.</p>
-    </div>
+    <h3 class="text-2xl font-bold text-center mt-8">Danh sách thông báo</h3>
+    <div v-if="notifications.length" class="overflow-auto max-h-96">
+  <table class="w-full border-collapse mt-4">
+    <thead>
+      <tr class="bg-gray-200 text-left">
+        <th class="p-3 border">ID</th>
+        <th class="p-3 border">Title</th>
+        <th class="p-3 border">Description</th>
+        <th class="p-3 border">Content</th>
+        <th class="p-3 border">Post Date</th>
+        <th class="p-3 border">Type</th>
+        <th class="p-3 border">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(notification, index) in notifications" :key="index" class="odd:bg-white even:bg-gray-50">
+        <td class="p-3 border">{{ notification.postId }}</td>
+        <td class="p-3 border">{{ notification.title }}</td>
+        <td class="p-3 border">{{ notification.description }}</td>
+        <td class="p-3 border">
+          <img
+            :src="'data:image/png;base64,' + notification.content"
+            alt="Notification Content"
+            class="max-w-24"
+          />
+        </td>
+        <td class="p-3 border">{{ notification.postDate }}</td>
+        <td class="p-3 border">{{ notification.type }}</td>
+        <td class="p-3 border">
+          <button @click="deleteNotification(notification.postId)" class="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700">Xóa</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div v-else>
+  <p>Không có thông báo để hiển thị.</p>
+</div>
+
   </section>
 </template>
 

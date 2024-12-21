@@ -4,10 +4,6 @@
     <div class="top-left flex gap-2 mb-5 text-lg">
       <input type="radio" :class="{ 'active': selectedOption === 'manage' }" @click="selectOption('manage')">
         Manage Booking
-    </input>
-      <input type="radio" :class="{ 'active': selectedOption === 'checkin' }" @click="selectOption('checkin')">
-        Check-in
-    </input>
     </div>
 
     <!-- Display input fields for Booking Reference and Last Name when Manage Booking or Check-in is selected -->

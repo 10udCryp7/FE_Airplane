@@ -31,7 +31,7 @@
                 <div class="separator w-px h-2/3 bg-black mx-2"></div>
                 <div class="input-group flex flex-col items-start p-2 flex-1 -translate-y-2">
                     <label class="text-xs text-gray-500 mb-1">Date</label>
-                    <VueDatePicker v-model="routeDate" format="yyyy-MM-dd" class="w-full border-none outline-none text-sm h-8 pb-8 scale-90 no-overflow-hidden date-picker" />
+                    <input type="date" v-model="query" format="yyyy-MM-dd" class="w-full border-none outline-none text-xl h-auto pb-1 scale-90 no-overflow-hidden translate-y-2" />
                 </div>
                 <button @click="searchByRoute" class="status-btn flex p-4 text-lg text-white bg-[#18134C] border-none rounded-2xl cursor-pointer transition-colors duration-300 absolute bottom-[0px] right-5 -translate-y-4">Search</button>
             </div>
@@ -42,9 +42,10 @@
                     <label class="text-xs text-gray-500 mb-1 pb-2">Flight Number</label>
                     <input v-model="flightNumber" class="w-full border-none outline-none text-l p-1 translate-y-3" />
                 </div>
+                <div class="separator w-px h-2/3 bg-black mx-2"></div>
                 <div class="input-group flex flex-col items-start p-2 flex-1 -translate-y-1">
                     <label class="text-xs text-gray-500 mb-1">Date</label>
-                    <VueDatePicker v-model="flightDate" format="yyyy-MM-dd" class="w-full border-none outline-none text-sm p-1 h-8 no-overflow-hidden date-picker pb10 -translate-y-2" />
+                    <input type="date" v-model="flightDate" format="yyyy-MM-dd" class="w-full border-none outline-none text-xl scale-90 p-1 h-auto no-overflow-hidden pb10 translate-y-1" />
                 </div>
                 <button @click="searchByFlightNumber" class="status-btn flex p-4 text-lg text-white bg-[#18134C] border-none rounded-2xl cursor-pointer transition-colors duration-300 absolute bottom-[0px] right-5 -translate-y-4">Search</button>
             </div>
@@ -107,4 +108,9 @@ const searchByFlightNumber = () => {
 .radio-label {
   @apply flex items-center gap-2 text-lg cursor-pointer;
 }
+.date-picker {
+    z-index: 50;
+}
+
+
 </style>

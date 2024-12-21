@@ -10,7 +10,7 @@
         </div>
 
         <!-- Content -->
-        <div class="content">
+        <div class="content flex">
             <component :is="activeComponent" />
         </div>
     </div>
@@ -24,7 +24,7 @@ import ManageCheckinForm from '../form/ManageCheckinForm.vue';
 import FlightStatusForm from '../form/FlightStatusForm.vue';
 const tabs = [
     { name: "Book a Flight", label: "Book a Flight", component: BookAFlightForm },
-    { name: "Manage Check-in", label: "Manage Check-in", component: ManageCheckinForm },
+    { name: "Manage Booking", label: "Manage Booking", component: ManageCheckinForm },
     { name: "Flight Status", label: "Flight Status", component: FlightStatusForm },
 ];
 
@@ -79,5 +79,41 @@ const setActiveTab = (name) => {
   padding: 20px;
   background-color: #fff;
   overflow-y: auto;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .grid-container {
+    width: 800px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    width: 600px;
+    height: 280px;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-container {
+    width: 500px;
+    height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-container {
+    width: 400px;
+    height: 240px;
+  }
+}
+
+@media (max-width: 360px) {
+  .grid-container {
+    width: 300px;
+    height: 220px;
+  }
 }
 </style>
