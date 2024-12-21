@@ -176,7 +176,7 @@ const deleteAircraft = async (id) => {
     fetchAircraftList();
   } catch (error) {
     console.error("Lỗi khi xóa tàu bay:", error);
-    alert("Lỗi khi xóa tàu bay!");
+    alert("Lỗi khi xóa tàu bay! ");
   }
 };
 
