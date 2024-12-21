@@ -35,13 +35,43 @@
       </div>
   
       <button @click="postInfoWithImage">Đăng thông tin</button>
+  
+      <h3>Danh sách thông báo</h3>
+      <div v-if="notifications.length" style="overflow: auto; max-height: 400px;">
+        <table border="1" style="width: 100%;">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Content</th>
+              <th>Post Date</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(notification, index) in notifications" :key="index">
+              <td>{{ notification.id }}</td>
+              <td>{{ notification.title }}</td>
+              <td>{{ notification.description }}</td>
+              <td>
+                <img :src="notification.content" alt="Notification Content" style="max-width: 100px;" />
+              </td>
+              <td>{{ notification.postDate }}</td>
+              <td>{{ notification.type }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-else>
+        <p>Không có thông báo để hiển thị.</p>
+      </div>
     </section>
   </template>
   
   <script setup>
-  // Dữ liệu cho phần "Đăng thông tin"
+  import { ref, onMounted } from "vue";
   import axios from "axios";
-  import { ref } from "vue";
   
   const newTitle = ref("");
   const newPost = ref("");
@@ -49,20 +79,18 @@
   const imagePreview = ref("");
   const postType = ref("promotion"); // Giá trị mặc định là promotion
   
-  // Hàm xử lý khi người dùng chọn ảnh
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
       imageFile.value = file;
       const reader = new FileReader();
       reader.onload = (e) => {
-        imagePreview.value = e.target.result; // Hiển thị ảnh xem trước
+        imagePreview.value = e.target.result;
       };
       reader.readAsDataURL(file);
     }
   };
   
-  // Hàm đăng thông tin với ảnh
   const postInfoWithImage = async () => {
     if (!newTitle.value || !newPost.value || !postType.value) {
       alert("Vui lòng nhập đầy đủ thông tin trước khi đăng!");
@@ -76,8 +104,8 @@
     if (imageFile.value) {
       formData.append("image", imageFile.value);
     }
-    // postDate = today
-    formData.append("postDate", new Date().toISOString());  
+    formData.append("postDate", new Date().toISOString());
+  
     try {
       const response = await axios.post("http://localhost:3456/api/notification", formData, {
         headers: {
@@ -86,19 +114,36 @@
       });
       console.log(response.data);
   
-      // Hiển thị thông tin đã đăng (hoặc thực hiện gọi API tại đây)
       alert("Đăng thông tin thành công!");
+      fetchResponses();
     } catch (err) {
       console.error("Đăng thông tin thất bại:", err);
     }
   
-    // Xóa dữ liệu sau khi đăng
     newTitle.value = "";
     newPost.value = "";
     imageFile.value = null;
     imagePreview.value = "";
-    postType.value = "promotion"; // Reset về giá trị mặc định
+    postType.value = "promotion";
   };
+  
+  const notifications = ref([]);
+  
+  const fetchResponses = async () => {
+    try {
+      const response = await axios.get("http://localhost:3456/api/notification", {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      notifications.value = response.data.notifications;
+    } catch (error) {
+      console.error("Error fetching responses:", error);
+    }
+  };
+  
+  onMounted(() => {
+    fetchResponses();
+  });
   </script>
   
   <style scoped>

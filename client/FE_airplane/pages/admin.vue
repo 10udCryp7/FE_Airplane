@@ -26,8 +26,6 @@
     <div v-if="currentTab === 'Thống kê'">
       <ViewStatistics />
     </div>
-    <div v-if="currentTab === 'Thay đổi giờ khởi hành'">
-    </div>
   </div>
 </template>
 
@@ -40,7 +38,6 @@ const tabs = [
   'Nhập dữ liệu tàu bay',
   'Nhập dữ liệu chuyến bay',
   'Thống kê',
-  'Thay đổi giờ khởi hành',
 ];
 const currentTab = ref(tabs[0]);
 
