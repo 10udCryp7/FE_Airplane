@@ -44,9 +44,14 @@
     </div>
         </header>  
 
+        <div>
+          <slot />
+        </div>
+        
         <div class="background-container h-[50vh] w-full bg-cover bg-center bg-no-repeat">
             <img src="../assets/images/background.jpg" alt="background" class="h-full w-full object-cover" />
         </div>
+        
     </div> 
 </template>
 

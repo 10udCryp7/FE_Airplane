@@ -1,7 +1,7 @@
 <template>
   <div class="container font-sans relative flex flex-col items-center justify-center w-full h-full p-5 bg-white rounded-lg" :style="{ width: width + 'px', height: height + 'px' }">
     <!-- Two buttons for Manage Booking and Check-in -->
-    <div class="pb-5 top-left flex gap-5 mb-5 text-lg">
+    <div class="top-left flex gap-2 mb-5 text-lg">
       <input type="radio" :class="{ 'active': selectedOption === 'manage' }" @click="selectOption('manage')">
         Manage Booking
     </input>

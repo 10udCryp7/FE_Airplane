@@ -23,7 +23,9 @@ defineProps({
     required: true,
   },
 });
-const msg = ref(['North Craigmouth', 'Philipborough', Date('2025-01-12 15:57:40.405'), Date('2025-01-15 17:29:46.198')]);
+//const msg = ref(['North Craigmouth', 'Philipborough', Date('2025-01-12 15:57:40.405'), Date('2025-01-15 17:29:46.198')]);
+const msg = ref(['Binsfield', 'South Rosetta', Date('2025-07-12 10:20:05.188'), Date('2025-06-08 14:25:31.554')]);
+
 // const msg = ref(['', '', '', '']); 
 const name = ref(['From', 'To', 'Departure Time', 'Arrival Time']);
 // === FETCH FLIGHT ===

@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <button @click="handleClick">{{ price }} $</button>
-  </div>
+    <button @click="handleClick" class="group border-2 border-gray-200 rounded-lg px-6 py-4 hover:border-black hover:bg-[#181347] hover:text-white transition duration-300 ease-in-out cursor-pointer w-1/2 h-40 flex flex-row text-left">
+      <span class="text-4xl font-normal inline">{{ price }}</span> 
+      <span class="text-xl font-semibold">$</span>
+    </button>
 </template>
 
 <script setup>

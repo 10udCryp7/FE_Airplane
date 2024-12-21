@@ -1,7 +1,7 @@
 <template>
     <div class="container" :style="{ width: width + 'px', height: height + 'px' }">
         <!-- Lựa chọn phương thức tìm kiếm -->
-        <div class="status-options top-left">
+        <div class="status-options top-left flex gap-5 mb-5">
             <label class="radio-label">
                 <input type="radio" v-model="searchType" value="route" />
                 <span>By Route</span>
@@ -104,4 +104,7 @@ const searchByFlightNumber = () => {
 
 <style scoped>
 /* Thêm CSS nếu cần */
+.radio-label {
+  @apply flex items-center gap-2 text-lg cursor-pointer;
+}
 </style>

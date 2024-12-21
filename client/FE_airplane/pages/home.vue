@@ -40,6 +40,6 @@ definePageMeta({
 
 .next-trip-text {
   z-index: 1;
-  @apply font-sans text-4xl pt-96 pl-80;
+  @apply font-sans text-4xl pt-5 pl-80;
   font-family: 'Neue Haas Unica Pro', sans-serif;
 }</style>

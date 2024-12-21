@@ -1,25 +1,20 @@
 <template>
-  <div class="parent">
-    <h2>Select your departure flight from {{ departure }} to {{ arrival }}</h2>
-
+  <div class="flex items-center justify-between bg-white rounded-lg shadow-lg p-4 m-7 w-full max-w-7xl mx-auto h-52">
     <!-- Truyền startDate và endDate cho component con DateRangeDisplay -->
-    <DateRangeDisplay :startDate="startDate" :endDate="endDate" />
-
-    <h3>Giá tiền:</h3>
-
+    <div class="flex flex-col items-start space-y-2">
+      <DateRangeDisplay :startDate="startDate" :endDate="endDate" />
+      <button class="text-sm bg-none border-none text-[#181347] py-1 px-2 rounded translate-y-12">Flight Details</button>
+    </div>
+    
     <!-- Truyền price cho component con PriceButton -->
-    <PriceButton :price="price" :departure="departure" :arrival="arrival" :startDate="startDate" :endDate="endDate" :flightId="flightId"/>
-    <button>FLight Details</button>
+    <div class="flex justify-end w-full">
+      <PriceButton :price="price" :departure="departure" :arrival="arrival" :startDate="startDate" :endDate="endDate" :flightId="flightId" />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-
-// Dữ liệu cần truyền xuống cho component con
-// const startDate = ref('2024-12-01');
-// const endDate = ref('2024-12-10');
-// const price = ref(100); // Ví dụ giá trị price là 100$
 
 defineProps({
   departure: {
@@ -28,11 +23,9 @@ defineProps({
   arrival: {
     type: String,
   },
-  // define the placeholder for the input field
   startDate: {
     type: Date,
   },
-  // define the type of the input field
   endDate: {
     type: Date,
   },
@@ -43,15 +36,9 @@ defineProps({
     type: Number,
   }
 });
-
 </script>
 
 <style scoped>
-.parent {
-  padding: 20px;
-  border: 1px solid black;
-}
-
 h2,
 h3 {
   margin-bottom: 10px;
