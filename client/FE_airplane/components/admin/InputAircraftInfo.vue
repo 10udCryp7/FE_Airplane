@@ -20,15 +20,52 @@
           <th>Nhà sản xuất</th>
           <th>Sức chứa</th>
           <th>Mô tả</th>
+          <th>Hành động</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="aircraft in aircraftList" :key="aircraft.aircraftId">
           <td>{{ aircraft.aircraftId }}</td>
-          <td>{{ aircraft.model }}</td>
-          <td>{{ aircraft.manufacturer }}</td>
-          <td>{{ aircraft.capacity }}</td>
-          <td>{{ aircraft.description }}</td>
+          <td>
+            <input
+              v-if="editingAircraftId === aircraft.aircraftId"
+              v-model="aircraft.model"
+              placeholder="Mẫu tàu bay"
+            />
+            <span v-else>{{ aircraft.model }}</span>
+          </td>
+          <td>
+            <input
+              v-if="editingAircraftId === aircraft.aircraftId"
+              v-model="aircraft.manufacturer"
+              placeholder="Nhà sản xuất"
+            />
+            <span v-else>{{ aircraft.manufacturer }}</span>
+          </td>
+          <td>
+            <input
+              v-if="editingAircraftId === aircraft.aircraftId"
+              v-model="aircraft.capacity"
+              type="number"
+              placeholder="Sức chứa"
+            />
+            <span v-else>{{ aircraft.capacity }}</span>
+          </td>
+          <td>
+            <input
+              v-if="editingAircraftId === aircraft.aircraftId"
+              v-model="aircraft.description"
+              placeholder="Mô tả"
+            />
+            <span v-else>{{ aircraft.description }}</span>
+          </td>
+          <td>
+            <button v-if="editingAircraftId === aircraft.aircraftId" @click="saveAircraft(aircraft)">
+              Lưu
+            </button>
+            <button v-else @click="editAircraft(aircraft.aircraftId)">Sửa</button>
+            <button @click="deleteAircraft(aircraft.aircraftId)">Xóa</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -36,50 +73,92 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-
-// Biến lưu dữ liệu tàu bay mới
-const aircraft = ref({
-  model: '',
-  manufacturer: '',
-  capacity: 0,
-  description: '',
-});
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
 // Biến lưu danh sách tàu bay
 const aircraftList = ref([]);
 
+// Biến trạng thái chỉnh sửa
+const editingAircraftId = ref(null);
+
+// Biến dữ liệu tàu bay để thêm
+const aircraft = ref({
+  model: "",
+  manufacturer: "",
+  capacity: 0,
+  description: "",
+});
+
 // Hàm thêm tàu bay
 const addAircraft = async () => {
   try {
-    const param = aircraft.value;
-    const response = await axios.post('http://localhost:3456/api/aircraft', param, {
-      withCredentials: true,
-    });
-    alert(`Thêm tàu bay thành công: ${JSON.stringify(param)}`);
-
-    // Reset form
-    aircraft.value = { model: '', manufacturer: '', capacity: 0, description: '' };
-
-    // Cập nhật danh sách tàu bay
+    const response = await axios.post(
+      "http://localhost:3456/api/aircraft",
+      aircraft.value,
+      { withCredentials: true }
+    );
+    alert("Thêm tàu bay thành công!");
+    aircraft.value = { model: "", manufacturer: "", capacity: 0, description: "" };
     fetchAircraftList();
   } catch (error) {
-    console.error('Lỗi khi thêm tàu bay:', error);
-    alert('Lỗi khi thêm tàu bay!');
+    console.error("Lỗi khi thêm tàu bay:", error);
+    alert("Lỗi khi thêm tàu bay!");
   }
 };
 
 // Hàm lấy danh sách tàu bay
 const fetchAircraftList = async () => {
   try {
-    const response = await axios.get('http://localhost:3456/api/aircraft', {
+    const response = await axios.get("http://localhost:3456/api/aircraft", {
       withCredentials: true,
     });
     aircraftList.value = response.data.aircrafts || [];
   } catch (error) {
-    console.error('Lỗi khi lấy danh sách tàu bay:', error);
-    alert('Lỗi khi lấy danh sách tàu bay!');
+    console.error("Lỗi khi lấy danh sách tàu bay:", error);
+    alert("Lỗi khi lấy danh sách tàu bay!");
+  }
+};
+
+// Hàm xóa tàu bay
+const deleteAircraft = async (id) => {
+  try {
+    const response = await axios.delete(
+      `http://localhost:3456/api/aircraft/${id}`,
+      { withCredentials: true }
+    );
+    alert("Xóa tàu bay thành công!");
+    fetchAircraftList();
+  } catch (error) {
+    console.error("Lỗi khi xóa tàu bay:", error);
+    alert("Lỗi khi xóa tàu bay!");
+  }
+};
+
+// Hàm bật trạng thái chỉnh sửa
+const editAircraft = (id) => {
+  editingAircraftId.value = id;
+};
+
+// Hàm lưu thay đổi tàu bay
+const saveAircraft = async (aircraft) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:3456/api/aircraft/${aircraft.aircraftId}`,
+      {
+        model: aircraft.model,
+        manufacturer: aircraft.manufacturer,
+        capacity: aircraft.capacity,
+        description: aircraft.description,
+      },
+      { withCredentials: true }
+    );
+    alert("Cập nhật tàu bay thành công!");
+    editingAircraftId.value = null; // Tắt chế độ chỉnh sửa
+    fetchAircraftList();
+  } catch (error) {
+    console.error("Lỗi khi cập nhật tàu bay:", error);
+    alert("Lỗi khi cập nhật tàu bay!");
   }
 };
 
@@ -104,5 +183,8 @@ th, td {
 }
 th {
   background-color: #f4f4f4;
+}
+button {
+  margin-right: 5px;
 }
 </style>
