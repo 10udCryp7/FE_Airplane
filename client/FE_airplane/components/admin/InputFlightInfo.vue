@@ -1,26 +1,5 @@
 <template>
     <section>
-      <h3>Nhập dữ liệu về các chuyến bay</h3>
-      <h4>Thêm hãng hàng không</h4>
-      <input v-model="flight.airline" placeholder="Hãng hàng không" />
-      <h4>Thêm điểm khởi hành</h4>
-      <input v-model="flight.departure" placeholder="Điểm khởi hành" />
-      <h4>Thêm điểm đến</h4>
-      <input v-model="flight.arrival" placeholder="Điểm đến" />
-      <h4>Thêm thời gian khởi hành</h4>
-      <input
-        type="datetime-local"
-        v-model="flight.departureTime"
-        placeholder="Thời gian khởi hành"
-      />
-      <h4>Thêm thời gian đến</h4>
-      <input
-        type="datetime-local"
-        v-model="flight.arrivalTime"
-        placeholder="Thời gian đến"
-      />
-      <button @click="addFlight">Thêm chuyến bay</button>
-  
       <h3>Danh sách các chuyến bay</h3>
       <table border="1">
         <thead>
@@ -32,41 +11,82 @@
             <th>Điểm đến</th>
             <th>Thời gian khởi hành</th>
             <th>Thời gian đến</th>
+            <th>Actions1</th>
+            <th>Actions2</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="flight in flights" :key="flight.flightId">
-            <td>{{ flight.flightId }}</td>
-            <td>{{ flight.airline }}</td>
-            <td>{{ flight.aircraftTypeId }}</td>
-            <td>{{ flight.departure }}</td>
-            <td>{{ flight.arrival }}</td>
-            <td>{{ flight.departureTime }}</td>
-            <td>{{ flight.arrivalTime }}</td>
+          <tr v-for="flightItem in flights" :key="flightItem.flightId">
+            <!-- If editingFlight matches this row, show input fields -->
+            <template v-if="editingFlight === flightItem.flightId">
+              <td>{{ flightItem.flightId }}</td>
+              <td>
+                <input
+                  v-model="flight.airline"
+                  placeholder="Hãng hàng không"
+                />
+              </td>
+              <td>{{ flightItem.aircraftTypeId }}</td>
+              <td>
+                <input
+                  v-model="flight.departure"
+                  placeholder="Điểm khởi hành"
+                />
+              </td>
+              <td>
+                <input v-model="flight.arrival" placeholder="Điểm đến" />
+              </td>
+              <td>
+                <input
+                  type="datetime-local"
+                  v-model="flight.departureTime"
+                  placeholder="Thời gian khởi hành"
+                />
+              </td>
+              <td>
+                <input
+                  type="datetime-local"
+                  v-model="flight.arrivalTime"
+                  placeholder="Thời gian đến"
+                />
+              </td>
+              <td>
+                <button @click="saveFlight(flightItem.flightId)">Lưu</button>
+              </td>
+              <td>
+                <button @click="cancelEdit">Hủy</button>
+              </td>
+            </template>
+  
+            <!-- Otherwise, show the row in read-only mode -->
+            <template v-else>
+              <td>{{ flightItem.flightId }}</td>
+              <td>{{ flightItem.airline }}</td>
+              <td>{{ flightItem.aircraftTypeId }}</td>
+              <td>{{ flightItem.departure }}</td>
+              <td>{{ flightItem.arrival }}</td>
+              <td>{{ flightItem.departureTime }}</td>
+              <td>{{ flightItem.arrivalTime }}</td>
+              <td>
+                <button @click="editFlight(flightItem)">Sửa</button>
+              </td>
+              <td>
+                <button @click="deleteFlight(flightItem.flightId)">Xóa</button>
+              </td>
+            </template>
           </tr>
         </tbody>
       </table>
     </section>
   </template>
   
+  
   <script setup>
   import { ref, onMounted } from "vue";
   import axios from "axios";
   
   const flights = ref([]);
-  
-  const fetchFlights = async () => {
-    try {
-      const response = await axios.get("http://localhost:3456/api/flight", {
-        withCredentials: true,
-      });
-      // Chỉ lấy các trường cần thiết từ phản hồi
-      flights.value = response.data.flights
-      console.log(response.data);
-    } catch (error) {
-      console.error("Lỗi khi tải dữ liệu chuyến bay:", error);
-    }
-  };
+  const editingFlight = ref(null); // Track which flight is being edited
   
   const flight = ref({
     airline: "",
@@ -76,17 +96,46 @@
     arrivalTime: null,
   });
   
-  const addFlight = async () => {
+  const fetchFlights = async () => {
     try {
-      const request_param = { ...flight.value };
-      const response = await axios.post(
-        "http://localhost:3456/api/flight",
-        request_param,
+      const response = await axios.get("http://localhost:3456/api/flight", {
+        withCredentials: true,
+      });
+      flights.value = response.data.flights;
+    } catch (error) {
+      console.error("Lỗi khi tải dữ liệu chuyến bay:", error);
+    }
+  };
+  
+  const deleteFlight = async (flightId) => {
+    try {
+      await axios.delete(`http://localhost:3456/api/flight/${flightId}`, {
+        withCredentials: true,
+      });
+      console.log("Xóa chuyến bay thành công");
+      await fetchFlights();
+    } catch (error) {
+      console.error("Lỗi khi xóa chuyến bay:", error);
+    }
+  };
+  
+  const editFlight = (flightItem) => {
+    editingFlight.value = flightItem.flightId; // Set the flightId being edited
+    flight.value = { ...flightItem }; // Populate the form with existing flight data
+  };
+  
+  const saveFlight = async (flightId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3456/api/flight/${flightId}`,
+        { ...flight.value },
         {
           withCredentials: true,
         }
       );
-      console.log("Thêm chuyến bay thành công:", response.data);
+      console.log("Sửa chuyến bay thành công:", response.data);
+  
+      editingFlight.value = null; // Clear editing mode
       flight.value = {
         airline: "",
         departure: "",
@@ -94,10 +143,21 @@
         departureTime: null,
         arrivalTime: null,
       };
-      await fetchFlights(); // Cập nhật danh sách sau khi thêm
+      await fetchFlights(); // Refresh the flights list
     } catch (error) {
-      console.error("Lỗi khi thêm chuyến bay:", error);
+      console.error("Lỗi khi sửa chuyến bay:", error);
     }
+  };
+  
+  const cancelEdit = () => {
+    editingFlight.value = null; // Exit editing mode
+    flight.value = {
+      airline: "",
+      departure: "",
+      arrival: "",
+      departureTime: null,
+      arrivalTime: null,
+    };
   };
   
   onMounted(() => {
