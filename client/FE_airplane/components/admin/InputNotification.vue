@@ -57,8 +57,8 @@
             <td>{{ notification.description }}</td>
             <td>
               <img
-                :src="notification.content"
-                alt="Notification Content"
+              :src="'data:image/png;base64,' + notification.content"
+              alt="Notification Content"
                 style="max-width: 100px"
               />
             </td>
