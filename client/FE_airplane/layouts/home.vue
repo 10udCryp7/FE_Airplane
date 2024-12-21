@@ -46,7 +46,7 @@
           </div>
 
           <div v-else>
-            <button @click="navigateToSignIn">Sign In</button>
+            <button @click="navigateToSignIn" class="pr-5">Sign In</button>
             <button @click="navigateToSignUp">Sign Up</button>
           </div>
     </div>

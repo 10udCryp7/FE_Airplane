@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { defineNuxtConfig } from 'nuxt/config';
 import { resolve } from "path";
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
@@ -19,5 +20,5 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt',],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
 });
