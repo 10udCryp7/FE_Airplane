@@ -1,98 +1,146 @@
 <template>
-  <section>
-      <h3>Nhập dữ liệu về các chuyến bay</h3>
-      <h4>Thêm hãng hàng không</h4>
-      <input v-model="flight.airline" placeholder="Hãng hàng không" />
-      <h4>Thêm điểm khởi hành</h4>
-      <input v-model="flight.departure" placeholder="Điểm khởi hành" />
-      <h4>Thêm điểm đến</h4>
-      <input v-model="flight.arrival" placeholder="Điểm đến" />
-      <h4>Thêm thời gian khởi hành</h4>
-      <input
-        type="datetime-local"
-        v-model="flight.departureTime"
-        placeholder="Thời gian khởi hành"
-      />
-      <h4>Thêm thời gian đến</h4>
-      <input
-        type="datetime-local"
-        v-model="flight.arrivalTime"
-        placeholder="Thời gian đến"
-      />
-      <button @click="addFlight">Thêm chuyến bay</button>
+  <section class="bg-gray-100 p-6 w-full flex flex-col">
+    <h3 class="text-2xl font-bold text-center mb-6">Nhập dữ liệu về các chuyến bay</h3>
+    <h4 class="text-lg font-semibold mb-2">Thêm hãng hàng không</h4>
+    <input
+      v-model="flight.airline"
+      placeholder="Hãng hàng không"
+      class="w-full p-2 mb-4 border border-gray-300 rounded"
+    />
+    <h4 class="text-lg font-semibold mb-2">Thêm điểm khởi hành</h4>
+    <input
+      v-model="flight.departure"
+      placeholder="Điểm khởi hành"
+      class="w-full p-2 mb-4 border border-gray-300 rounded"
+    />
+    <h4 class="text-lg font-semibold mb-2">Thêm điểm đến</h4>
+    <input
+      v-model="flight.arrival"
+      placeholder="Điểm đến"
+      class="w-full p-2 mb-4 border border-gray-300 rounded"
+    />
+    <h4 class="text-lg font-semibold mb-2">Thêm thời gian khởi hành</h4>
+    <input
+      type="datetime-local"
+      v-model="flight.departureTime"
+      placeholder="Thời gian khởi hành"
+      class="w-full p-2 mb-4 border border-gray-300 rounded"
+    />
+    <h4 class="text-lg font-semibold mb-2">Thêm thời gian đến</h4>
+    <input
+      type="datetime-local"
+      v-model="flight.arrivalTime"
+      placeholder="Thời gian đến"
+      class="w-full p-2 mb-4 border border-gray-300 rounded"
+    />
+    <button
+      @click="addFlight"
+      class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700"
+    >
+      Thêm chuyến bay
+    </button>
 
-    <h3>Danh sách các chuyến bay</h3>
-    <table border="1">
+    <h3 class="text-2xl font-bold text-center mt-8">Danh sách các chuyến bay</h3>
+    <table class="w-full border-collapse mt-4">
       <thead>
-        <tr>
-          <th>ID</th>
-          <th>Hãng hàng không</th>
-          <th>Loại máy bay</th>
-          <th>Điểm khởi hành</th>
-          <th>Điểm đến</th>
-          <th>Thời gian khởi hành</th>
-          <th>Thời gian đến</th>
-          <th>Actions1</th>
-          <th>Actions2</th>
+        <tr class="bg-gray-200 text-left">
+          <th class="p-3 border">ID</th>
+          <th class="p-3 border">Hãng hàng không</th>
+          <th class="p-3 border">Loại máy bay</th>
+          <th class="p-3 border">Điểm khởi hành</th>
+          <th class="p-3 border">Điểm đến</th>
+          <th class="p-3 border">Thời gian khởi hành</th>
+          <th class="p-3 border">Thời gian đến</th>
+          <th class="p-3 border">Actions1</th>
+          <th class="p-3 border">Actions2</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="flightItem in flights" :key="flightItem.flightId">
-          <!-- If editingFlight matches this row, show input fields -->
+        <tr
+          v-for="flightItem in flights"
+          :key="flightItem.flightId"
+          class="odd:bg-white even:bg-gray-50"
+        >
           <template v-if="editingFlight === flightItem.flightId">
-            <td>{{ flightItem.flightId }}</td>
-            <td>
+            <td class="p-3 border">{{ flightItem.flightId }}</td>
+            <td class="p-3 border">
               <input
                 v-model="flight.airline"
                 placeholder="Hãng hàng không"
+                class="w-full p-2 border border-gray-300 rounded"
               />
             </td>
-            <td>{{ flightItem.aircraftTypeId }}</td>
-            <td>
+            <td class="p-3 border">{{ flightItem.aircraftTypeId }}</td>
+            <td class="p-3 border">
               <input
                 v-model="flight.departure"
                 placeholder="Điểm khởi hành"
+                class="w-full p-2 border border-gray-300 rounded"
               />
             </td>
-            <td>
-              <input v-model="flight.arrival" placeholder="Điểm đến" />
+            <td class="p-3 border">
+              <input
+                v-model="flight.arrival"
+                placeholder="Điểm đến"
+                class="w-full p-2 border border-gray-300 rounded"
+              />
             </td>
-            <td>
+            <td class="p-3 border">
               <input
                 type="datetime-local"
                 v-model="flight.departureTime"
                 placeholder="Thời gian khởi hành"
+                class="w-full p-2 border border-gray-300 rounded"
               />
             </td>
-            <td>
+            <td class="p-3 border">
               <input
                 type="datetime-local"
                 v-model="flight.arrivalTime"
                 placeholder="Thời gian đến"
+                class="w-full p-2 border border-gray-300 rounded"
               />
             </td>
-            <td>
-              <button @click="saveFlight(flightItem.flightId)">Lưu</button>
+            <td class="p-3 border">
+              <button
+                @click="saveFlight(flightItem.flightId)"
+                class="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700"
+              >
+                Lưu
+              </button>
             </td>
-            <td>
-              <button @click="cancelEdit">Hủy</button>
+            <td class="p-3 border">
+              <button
+                @click="cancelEdit"
+                class="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700"
+              >
+                Hủy
+              </button>
             </td>
           </template>
-
-          <!-- Otherwise, show the row in read-only mode -->
           <template v-else>
-            <td>{{ flightItem.flightId }}</td>
-            <td>{{ flightItem.airline }}</td>
-            <td>{{ flightItem.aircraftTypeId }}</td>
-            <td>{{ flightItem.departure }}</td>
-            <td>{{ flightItem.arrival }}</td>
-            <td>{{ flightItem.departureTime }}</td>
-            <td>{{ flightItem.arrivalTime }}</td>
-            <td>
-              <button @click="editFlight(flightItem)">Sửa</button>
+            <td class="p-3 border">{{ flightItem.flightId }}</td>
+            <td class="p-3 border">{{ flightItem.airline }}</td>
+            <td class="p-3 border">{{ flightItem.aircraftTypeId }}</td>
+            <td class="p-3 border">{{ flightItem.departure }}</td>
+            <td class="p-3 border">{{ flightItem.arrival }}</td>
+            <td class="p-3 border">{{ flightItem.departureTime }}</td>
+            <td class="p-3 border">{{ flightItem.arrivalTime }}</td>
+            <td class="p-3 border">
+              <button
+                @click="editFlight(flightItem)"
+                class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600"
+              >
+                Sửa
+              </button>
             </td>
-            <td>
-              <button @click="deleteFlight(flightItem.flightId)">Xóa</button>
+            <td class="p-3 border">
+              <button
+                @click="deleteFlight(flightItem.flightId)"
+                class="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700"
+              >
+                Xóa
+              </button>
             </td>
           </template>
         </tr>

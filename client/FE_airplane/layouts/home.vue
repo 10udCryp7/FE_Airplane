@@ -6,33 +6,6 @@
           <img src="../assets/images/logo2.png" alt="logo" class="logo" />
           <img src="../assets/images/QAirline.png" alt="logo" class="logo" />
         </div>
-        
-        <!-- set header navigation bar -->
-        <nav class="nav flex space-x-4 text-white gap-5 ml-5">
-            <!-- set DropdownButton for 'Explore' -->
-            <DropdownButton class="text-lg font-light">
-                <template v-slot:title>Explore</template>
-                <template v-slot:content>
-                    <!-- ADD CONTENT HERE -->
-                    <!--DEMO CONTENT BELOW-->
-                    <!-- <a href="#">Destinations</a>
-                    <a href="#">Travel Guides</a> -->
-                </template>
-            </DropdownButton>
-            <!-- set DropdownButton for 'Book' -->
-            <DropdownButton class="text-lg font-light">
-                <template v-slot:title>Book</template>
-                <template v-slot:content>
-                    <!-- ADD CONTENT HERE -->
-                    <!--DEMO CONTENT BELOW-->
-<!--                     <a href="#">Flights</a>
-                    <a href="#">Hotels</a> -->
-                </template>
-            </DropdownButton>
-
-            
-            <!-- set DropdownButton for 'Experience' -->
-        </nav>
         <div class="auth-buttons flex space-x-4 text-white pr-12 font-medium gap-4 ml-auto">
         <button>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,6 +148,36 @@ header {
   .right-section {
     gap: 10px;
     font-size: 12px;
+  }
+}
+
+@media (max-width: 1024px) {
+  header {
+    padding: 4px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 4px 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  header {
+    padding: 4px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  header {
+    padding: 4px 4px;
   }
 }
 </style>

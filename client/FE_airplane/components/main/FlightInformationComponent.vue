@@ -9,7 +9,7 @@
       </h1>
     </div>
     <div>
-        <FlightInformationDisplay v-for="flight in flightData.flights" :key="flight.flightId"
+        <FlightInformationDisplay class="block" v-for="flight in flightData.flights" :key="flight.flightId"
             :departure="flight.departure" :arrival="flight.arrival" :startDate="flight.departureTime"
             :endDate="flight.arrivalTime" :price="flight.price" :flightId="flight.flightId"/>
     </div>
@@ -22,6 +22,22 @@ const flightData = useState('flightData');
 </script>
 
 <style scoped>
+@keyframes appear {
+  from {
+    opacity: 0;
+    scale: 0.5;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.block {
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+}
 .font-afterglow {
     font-family: 'Afterglow', sans-serif;
 }

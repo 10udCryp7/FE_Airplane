@@ -1,7 +1,6 @@
 <template>
-  <div class="admin-panel">
-    <h2>Chức năng cho quản trị</h2>
-    <div class="tabs">
+  <div class="admin-panel bg-[#161549] min-h-screen min-w-full relative ">
+    <div class="tabs items-center">
       <button 
         v-for="tab in tabs" 
         :key="tab" 
@@ -31,6 +30,10 @@
 
 <script setup>
 import { ref } from 'vue';
+
+definePageMeta({
+    layout: 'admin'
+})
 
 // Tab hiện tại
 const tabs = [
@@ -65,7 +68,7 @@ const currentTab = ref(tabs[0]);
 }
 
 .tabs button.active {
-  background-color: #2c3e50;
+  background-color: #161549;
   color: white;
 }
 
