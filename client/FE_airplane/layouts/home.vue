@@ -39,8 +39,16 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </button>
-        <button>Sign In</button>
-        <button>Sign Up</button>
+      
+        <div v-if=userStore.getAuthenticated>
+            <button>Hello, {{ userStore.getCurrentUser.name }}</button>
+            <button @click="navigateToLogOut">Logout</button>
+          </div>
+
+          <div v-else>
+            <button @click="navigateToSignIn">Sign In</button>
+            <button @click="navigateToSignUp">Sign Up</button>
+          </div>
     </div>
         </header>  
 
@@ -50,7 +58,35 @@
     </div> 
 </template>
 
-<script setup>
+<script >
+import { useRouter } from 'vue-router';
+import { useUserStore } from '~/stores/users';
+
+export default {
+  setup() {
+  const userStore = useUserStore();
+  const router = useRouter();
+  
+  const navigateToSignIn = () => {
+    router.push('/login');
+  }
+
+  const navigateToSignUp = () => {
+    router.push('/register');
+  }
+
+  const navigateToLogOut = () => {
+    userStore.logout();
+  }
+
+  return {
+      userStore,
+      navigateToSignIn,
+      navigateToSignUp,
+      navigateToLogOut
+    };
+  },  
+}
 </script>
 
 <style scoped>

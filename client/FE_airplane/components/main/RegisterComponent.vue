@@ -14,6 +14,10 @@
             <input type="email" id="email" v-model="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"/>
           </div>
           <div>
+            <label for="name">Name:</label>
+            <input type="name" id="name" v-model="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"/>
+          </div>
+          <div>
             <label for="password">Password:</label>
             <input type="password" id="password" v-model="password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"/>
           </div>
@@ -28,30 +32,49 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
-const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
-const router = useRouter();
+export default {
+  setup() {
+    const email = ref('');
+    const name = ref('');
+    const password = ref('');
+    const confirmPassword = ref('');
+    const router = useRouter();
 
-const register = async () => {
-  if (password.value !== confirmPassword.value) {
-    alert('Passwords do not match!');
-    return;
-  }
-  try {
-    const response = await axios.post('/api/register', { email: email.value, password: password.value });
-    console.log('Sign-up successful', response.data);
-    router.push('/login'); // Navigate to the login page on success
-  } catch (error) {
-    console.error('Sign-up failed', error);
+    console.log('RegisterComponent setup');
+    console.log('email', email);
+    console.log('password', password);
+    console.log('name', name);  
+
+    const register = async () => {
+      try {
+        const response = await axios.post('http://localhost:3456/api/auth/register', { username:name.value, email: email.value, password: password.value });
+        
+        if (response.status === 201) {
+          console.log('Registration successful', response.data.user);
+          router.push({ name: 'login' });
+        }
+      } catch (error) {
+        console.error('Registration failed', error);
+      }
+    };
+
+    return {
+      name,
+      email,
+      password,
+      confirmPassword,
+      register,
+    };
   }
 };
+
 </script>
+
 
 <style scoped>
   
