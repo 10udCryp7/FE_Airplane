@@ -1,110 +1,116 @@
 <template>
-    <div class="container" :style="{ width: width + 'px', height: height + 'px' }">
-        <!-- Lựa chọn phương thức tìm kiếm -->
-        <div class="status-options top-left flex gap-5 mb-5">
-            <label class="radio-label">
-                <input type="radio" v-model="searchType" value="route" />
-                <span>By Route</span>
-            </label>
-            <label class="radio-label">
-                <input type="radio" v-model="searchType" value="flightNumber" />
-                <span>By Flight Number</span>
-            </label>
-        </div>
-
-        <!-- Tìm kiếm theo Route -->
-        <div class="input-container flex flex-col border border-black rounded-lg justify-center h-20 w-full">
-            <div v-if="searchType === 'route'" class="input-row flex items-center justify-between flex-nowrap w-full">
-                <div class="input-group flex flex-col items-start p-2 flex-1">
-                    <label class="text-xs text-gray-500 mb-1">From</label>
-                    <DropdownInput v-model="from" class="translate-y-1 dropdown-input" typeField="text" />
-                </div>
-                <button @click="swapFromTo" class="swap-btn mx-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6M4 10l6-6M20 14l-6 6" />
-                    </svg>
-                </button>
-                <div class="input-group flex flex-col items-start p-2 flex-1">
-                    <label class="text-xs text-gray-500 mb-1">To</label>
-                    <DropdownInput v-model="to" class="dropdown-input" typeField="text" />
-                </div>
-                <div class="separator w-px h-2/3 bg-black mx-2"></div>
-                <div class="input-group flex flex-col items-start p-2 flex-1 -translate-y-2">
-                    <label class="text-xs text-gray-500 mb-1">Date</label>
-                    <VueDatePicker v-model="routeDate" format="yyyy-MM-dd" class="w-full border-none outline-none text-sm h-8 pb-8 scale-90 no-overflow-hidden date-picker" />
-                </div>
-                <button @click="searchByRoute" class="status-btn flex p-4 text-lg text-white bg-[#18134C] border-none rounded-2xl cursor-pointer transition-colors duration-300 absolute bottom-[0px] right-5 -translate-y-4">Search</button>
-            </div>
-
-            <!-- Tìm kiếm theo Flight Number -->
-            <div v-else-if="searchType === 'flightNumber'" class="input-row flex items-center justify-between flex-nowrap">
-                <div class="input-group flex flex-col items-start p-2 flex-1 -translate-y-1">
-                    <label class="text-xs text-gray-500 mb-1 pb-2">Flight Number</label>
-                    <input v-model="flightNumber" class="w-full border-none outline-none text-l p-1 translate-y-3" />
-                </div>
-                <div class="input-group flex flex-col items-start p-2 flex-1 -translate-y-1">
-                    <label class="text-xs text-gray-500 mb-1">Date</label>
-                    <VueDatePicker v-model="flightDate" format="yyyy-MM-dd" class="w-full border-none outline-none text-sm p-1 h-8 no-overflow-hidden date-picker pb10 -translate-y-2" />
-                </div>
-                <button @click="searchByFlightNumber" class="status-btn flex p-4 text-lg text-white bg-[#18134C] border-none rounded-2xl cursor-pointer transition-colors duration-300 absolute bottom-[0px] right-5 -translate-y-4">Search</button>
-            </div>
-
-            <!-- Hiển thị kết quả -->
-            <div v-if="result">
-                <h4>Search Result:</h4>
-                <p>{{ result }}</p>
-            </div>
-        </div>
+    <div>
+      <!-- Thanh tìm kiếm -->
+      <div class="search-bar">
+        <label>
+          Tìm kiếm theo:
+          <select v-model="searchType">
+            <option value="flightId">Flight ID</option>
+            <option value="airline">Airline</option>
+            <option value="departure">Departure</option>
+            <option value="arrival">Arrival</option>
+          </select>
+        </label>
+        <input v-model="searchQuery" :placeholder="`Enter ${searchType}`" />
+        <button @click="filterFlights">Tìm kiếm</button>
+      </div>
+  
+      <!-- Bảng hiển thị dữ liệu -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Flight ID</th>
+              <th>Airline</th>
+              <th>Aircraft Type ID</th>
+              <th>Departure</th>
+              <th>Arrival</th>
+              <th>Departure Time</th>
+              <th>Arrival Time</th>
+              <th>Price</th>
+              <th>Seats Available</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="flight in filteredFlights" :key="flight.flightId">
+              <td>{{ flight.flightId }}</td>
+              <td>{{ flight.airline }}</td>
+              <td>{{ flight.aircraftTypeId }}</td>
+              <td>{{ flight.departure }}</td>
+              <td>{{ flight.arrival }}</td>
+              <td>{{ flight.departureTime }}</td>
+              <td>{{ flight.arrivalTime }}</td>
+              <td>{{ flight.price }}</td>
+              <td>{{ flight.seatsAvailable }}</td>
+              <td>{{ flight.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</template>
+  </template>
+  
+  <script setup>
+  import { ref, computed, onMounted } from "vue";
+  import axios from "axios";
+  
+  const searchType = ref("flightId");
+  const searchQuery = ref("");
+  const flights = ref([]);
 
-<script setup>
-import { ref } from 'vue';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
-
-// Tạo các biến để lưu lựa chọn tìm kiếm và kết quả
-const searchType = ref('route'); // Default is 'route'
-const from = ref('');
-const to = ref('');
-const flightNumber = ref('');
-const routeDate = ref(null); // Date for route search
-const flightDate = ref(null); // Date for flight number search
-const result = ref(null);
-
-defineProps({
-    width: {
-        type: Number,
-        required: true
-    },
-    height: {
-        type: Number,
-        required: true
+  // Computed property để lọc dữ liệu dựa trên searchQuery
+  const filteredFlights = computed(() => {
+    return flights.value.filter((flight) => {
+      const value = flight[searchType.value]?.toString().toLowerCase();
+      return value?.includes(searchQuery.value.toLowerCase());
+    });
+  });
+  
+  // Hàm lấy dữ liệu từ API
+  const fetchFlights = async () => {
+    try {
+      const response = await axios.get("http://localhost:3456/api/flight");
+      flights.value = response.data.flights;
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching flights:", error);
     }
-});
+  };
 
-// Hàm tìm kiếm theo route
-const searchByRoute = () => {
-    if (!from.value || !to.value || !routeDate.value) {
-        result.value = 'Please fill all fields for route search.';
-        return;
-    }
-    result.value = `Searching for route: From ${from.value} to ${to.value} on ${routeDate.value}`;
-};
-
-// Hàm tìm kiếm theo số hiệu chuyến bay
-const searchByFlightNumber = () => {
-    if (!flightNumber.value || !flightDate.value) {
-        result.value = 'Please fill all fields for flight number search.';
-        return;
-    }
-    result.value = `Searching for flight number: ${flightNumber.value} on ${flightDate.value}`;
-};
-</script>
-
-<style scoped>
-/* Thêm CSS nếu cần */
-.radio-label {
-  @apply flex items-center gap-2 text-lg cursor-pointer;
-}
-</style>
+  const filterFlights = () => {
+    // Chức năng lọc được xử lý tự động trong filteredFlights (computed property)
+  };
+  
+  onMounted(() => {
+    fetchFlights();
+  });
+  </script>
+  
+  <style scoped>
+  .search-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  table th {
+    background-color: #f4f4f4;
+  }
+  </style>
