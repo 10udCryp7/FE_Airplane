@@ -58,8 +58,13 @@ export default {
             token,                 // Store the token
           });
 
-console.log('Login successful', { name, role });
-          router.push({ name: 'home' });
+          console.log('Login successful', { name, role });
+          if (role === 'Admin') {
+            router.push({ name: 'admin' });
+          } else {
+            router.push({ name: 'home' });
+          }
+          
         }
       } catch (error) {
         console.error('Login failed', error);

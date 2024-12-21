@@ -1,9 +1,13 @@
-import { defineNuxtRouteMiddleware } from '@nuxtjs/composition-api';
 import { useUserStore } from '~/stores/users';
 
 export default defineNuxtRouteMiddleware((to, from) => {
-    const userStore = useUserStore();
-    if (!userStore.isAdmin) {
-      return navigateTo('/home');
-    }
-  });
+  console.log('Admin middleware triggered for route:', to.fullPath);
+  const userStore = useUserStore();
+
+  if (!userStore.isAdmin) {
+    console.warn('Access denied: Not an admin');
+    return navigateTo('/home'); // Redirect non-admins
+  }
+
+  console.log('Access granted: Admin user');
+});
