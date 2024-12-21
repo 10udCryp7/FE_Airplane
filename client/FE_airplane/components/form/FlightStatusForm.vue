@@ -72,8 +72,16 @@
     try {
       const response = await axios.get("http://localhost:3456/api/flight");
       flights.value = response.data.flights;
-      console.log(response.data);
+      console.log('flight' + response.data);
     } catch (error) {
       console.error("Error fetching flights:", error);
     }
   };
+
+onMounted(fetchFlights);
+
+  // Hàm lọc dữ liệu
+  const filterFlights = () => {
+    fetchFlights();
+  };
+</script>
